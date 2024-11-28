@@ -31,7 +31,7 @@ Listing all apps from App Center:
 
 List the available apps in the specified App Center organization
 
-**NOTE: user API token with Full Access required**
+**NOTE: app center user API token with Full Access required**
 ```bash
 ./bin/appcenter-migration-tool apps list-org-apps --organizationName <organization-name>
 ```
@@ -46,7 +46,7 @@ List the available apps in the specified App Center organization
 
 List distribution groups in specified App Center organization
 
-**NOTE: user API token with Full Access required**
+**NOTE: app center user API token with Full Access required**
 ```bash
 appcenter-migration-tool distribution-groups list-org-distgroups --organizationName <organization-name>
 ```
