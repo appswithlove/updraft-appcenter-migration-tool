@@ -42,10 +42,6 @@ export function writeEnviromentConfigVariable(variable: EnvironmentVariables | s
     const current = config.get('current') || 'default';
     try {
         config.set(`envs.${current}.${variable}`, value);
-
-        // remove later, this si for testing
-        console.log(`Variable ${variable} set to ${value}`);
-        console.log(`Current: ${current}`);
     } catch {
         console.error('Could not write variable to the config file.');
     }
