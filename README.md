@@ -50,3 +50,9 @@ List distribution groups in specified App Center organization
 ```bash
 appcenter-migration-tool distribution-groups list-org-distgroups --organizationName <organization-name>
 ```
+
+List distribution groups in specified App Center app
+
+```bash
+./bin/appcenter-migration-tool distribution-groups list-app-distgroups --appName <app-name> --organizationName <organization-name>
+```
