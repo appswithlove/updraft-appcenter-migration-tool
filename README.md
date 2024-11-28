@@ -8,7 +8,7 @@ One file should be executable on Unix-like systems
 chmod +x ./bin/appcenter-migration-tool
 ```
 
-### Usage
+# Usage
 
 _Later: install globally, install locally - [like appcenter tool](https://github.com/appcircleio/appcenter-migration-tool?tab=readme-ov-file#installation-instructions)_
 
@@ -16,13 +16,13 @@ _Later: install globally, install locally - [like appcenter tool](https://github
 ./bin/appcenter-migration-tool --help
 ```
 
+## Login
+
 ```bash
 ./bin/appcenter-migration-tool login appcenter --appcenterToken <token>
 ```
 
-```bash
-./bin/appcenter-migration-tool organizations list-appcenter-orgs
-```
+## Apps
 
 Listing all apps from App Center:
 ```bash
@@ -30,11 +30,23 @@ Listing all apps from App Center:
 ```
 
 List the available apps in the specified App Center organization
+
+**NOTE: user API token with Full Access required**
 ```bash
 ./bin/appcenter-migration-tool apps list-org-apps --organizationName <organization-name>
 ```
 
+## Organizations
+
+```bash
+./bin/appcenter-migration-tool organizations list-appcenter-orgs
+```
+
+## Distribution Groups
+
 List distribution groups in specified App Center organization
+
+**NOTE: user API token with Full Access required**
 ```bash
 appcenter-migration-tool distribution-groups list-org-distgroups --organizationName <organization-name>
 ```
