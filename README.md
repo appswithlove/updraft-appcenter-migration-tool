@@ -26,7 +26,7 @@ _Later: install globally, install locally - [like appcenter tool](https://github
 
 Listing all apps from App Center:
 ```bash
-./bin/appcenter-migration-tool apps list-appcenter-apps
+./bin/appcenter-migration-tool apps list-all-apps
 ```
 
 List the available apps in the specified App Center organization
