@@ -22,6 +22,11 @@ _Later: install globally, install locally - [like appcenter tool](https://github
 ./bin/appcenter-migration-tool login appcenter --appcenterToken <token>
 ```
 
+This command is used for getting and storing updraft authorization token that will be used for other updraft API calls.
+```bash
+./bin/appcenter-migration-tool login updraft --username <username> --password <password>
+```
+
 ## Apps
 
 Listing all apps from App Center:

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { API_HOSTNAME, OptionsType, appcenterApi } from './appcenterApi';
-//import { AC_API_HOSTNAME } from './appcircleApi';
+import { UPDRAFT_API_HOSTNAME } from './updraftApi';
 
 export const getOrganizations = async () => {
     const response = await appcenterApi('/orgs');
@@ -47,6 +47,22 @@ export const getAppCenterUser = async (token: string) => {
     });
 
     const response = await api.get('/user');
+
+    return response.data;
+};
+
+export const getUpdraftAuthorizationToken = async (username: string, password: string) => {
+    const api = axios.create({
+        baseURL: UPDRAFT_API_HOSTNAME,
+    });
+
+    const response = await api.post(
+        '/api/user/login/',
+        {
+            username,
+            password
+        }
+    );
 
     return response.data;
 };
