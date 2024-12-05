@@ -17,15 +17,15 @@ export enum EnvironmentVariables {
     API_HOSTNAME = 'API_HOSTNAME',
     APPCENTER_TOKEN = 'APPCENTER_TOKEN',
     // Updraft
+    UPDRAFT_API_HOSTNAME = 'UPDRAFT_API_HOSTNAME',
+    UPDRAFT_AUTHORIZATION_TOKEN = 'UPDRAFT_AUTHORIZATION_TOKEN',
 }
 
 export const DefaultEnvironmentVariables = {
     API_HOSTNAME: 'https://api.appcenter.ms/v0.1',
     APPCENTER_TOKEN: '',
-//    AC_API_HOSTNAME: 'https://api.appcircle.io',
-//    AC_AUTH_HOSTNAME: 'https://auth.appcircle.io',
-//    AC_ACCESS_TOKEN: '',
-//    AC_PAT: '',
+    UPDRAFT_API_HOSTNAME: 'https://u2.getupdraft.com',
+    UPDRAFT_AUTHORIZATION_TOKEN: '',
 };
 
 const config = new Conf<{
@@ -50,6 +50,7 @@ export function writeEnviromentConfigVariable(variable: EnvironmentVariables | s
 export function readEnviromentConfigVariable(variable: EnvironmentVariables | string): string {
     const current = config.get('current') || 'default';
     try {
+        // fix: config.get did not throw exception, it returned undefined
         return config.get(`envs.${current}.${variable}`) || '';
     } catch {
         console.error('Could not read data, returning empty.');

@@ -7,8 +7,8 @@ const writersMap: { [key in CommandTypes]: (data: any) => void } = {
     [CommandTypes.LOGIN]: (data: any) => {
         if (data.fullCommandName === `${PROGRAM_NAME}-login-appcenter`) {
             console.log(chalk.italic(`Logged in into App Center account as ${data.data.email}\n`));
-        } else if (data.fullCommandName === `${PROGRAM_NAME}-login-appcircle`) {
-            console.log(chalk.italic(`Logged in into Appcircle account as ${data.data.email}\n`));
+        } else if (data.fullCommandName === `${PROGRAM_NAME}-login-updraft`) {
+            console.log(chalk.italic(`Logged in into Updraft account as ${data.data}\n`));
         }
     },
 

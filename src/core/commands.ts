@@ -42,7 +42,7 @@ export const commands: CommandType[] = [
     {
         command: CommandTypes.LOGIN,
         description: 'Login',
-        longDescription: 'Log in to connect Appcircle or App Center account',
+        longDescription: 'Log in to connect Updraft or App Center account',
         params: [],
         subCommands: [
             {
@@ -59,13 +59,19 @@ export const commands: CommandType[] = [
                 ],
             },
             {
-                command: 'appcircle',
-                description: 'Appcircle login',
-                longDescription: 'Log in to your Appcircle account',
+                command: 'updraft',
+                description: 'Updraft login',
+                longDescription: 'Log in to your Updraft account',
                 params: [
                     {
-                        name: 'appcircleToken',
-                        description: 'Appcircle Personal API Token',
+                        name: 'username',
+                        description: 'Updraft username',
+                        type: CommandParameterTypes.STRING,
+                        valueType: 'string',
+                    },
+                    {
+                        name: 'password',
+                        description: 'Updraft password',
                         type: CommandParameterTypes.STRING,
                         valueType: 'string',
                     },
