@@ -176,6 +176,12 @@ export const commands: CommandType[] = [
                         type: CommandParameterTypes.STRING,
                         valueType: 'string',
                     },
+                    {
+                        name: 'updraftOrganization',
+                        description: 'Destination Updraft organization for migration',
+                        type: CommandParameterTypes.STRING,
+                        valueType: 'string',
+                    },
                 ],
             },
         ],

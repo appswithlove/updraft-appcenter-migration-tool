@@ -45,7 +45,6 @@ const handleApps = async (command: ProgramCommand, params: any) => {
             spinner.start();
             params.profileNames = Array.isArray(params.profileNames) ? params.profileNames : params.profileNames.split(' ');
 
-
             const updraftApps = await getAllUpdraftApps();
 
             const migratedProfiles = [];
@@ -53,6 +52,7 @@ const handleApps = async (command: ProgramCommand, params: any) => {
 
             // needed for this endpoint: https://openapi.appcenter.ms/#/distribute/releases_getLatestByUser
             const appCenterAppOwner: string = params.owner;
+            const updraftOrganization: string = params.updraftOrganization;
 
             for (const profile of params.profileNames) {
                 if (updraftApps.some((updraftApp: UpdraftAppDetails) => updraftApp.title === profile)) {
