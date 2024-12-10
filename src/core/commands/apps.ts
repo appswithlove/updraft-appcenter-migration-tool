@@ -1,11 +1,14 @@
+import chalk from "chalk";
 import { noCommandFound } from './index';
 import { PROGRAM_NAME } from '../../constant';
 import { ProgramCommand } from '../../program';
-import { getAllAppCenterApps, getOrgApps } from '../../services';
+import {getAllAppCenterApps, getAppCenterApp, getOrgApps} from '../../services';
 import { createOra } from '../../utils/oraHelper';
 import { CommandTypes } from '../commands';
 import { commandWriter } from '../writer';
-import chalk from 'chalk';
+import { getAllUpdraftApps } from '../../services/updraftApi';
+import {UpdraftAppDetails} from "../../services/interfaces/updraft/app.interface";
+import {AppCenterApp} from "../../services/interfaces/appcenter/app.interface";
 //import { createDistributionProfile, getAppcircleOrganizations, getDistributionProfiles, getSubOrgToken } from '../../services/appcircleApi';
 
 const FULL_COMMANDS = ['-apps-list-all-apps', '-apps-list-org-apps', '-apps-migrate-profile'];
@@ -38,10 +41,34 @@ const handleApps = async (command: ProgramCommand, params: any) => {
             break;
 
         case FULL_COMMANDS[2]:
-            /*spinner.text = 'App Center Apps Profile(s) Migrating';
+            spinner.text = 'App Center Apps Profile(s) Migrating';
             spinner.start();
             params.profileNames = Array.isArray(params.profileNames) ? params.profileNames : params.profileNames.split(' ');
 
+
+            const updraftApps = await getAllUpdraftApps();
+
+            const migratedProfiles = [];
+            const existProfiles = [];
+
+            // needed for this endpoint: https://openapi.appcenter.ms/#/distribute/releases_getLatestByUser
+            const appCenterAppOwner: string = params.owner;
+
+            for (const profile of params.profileNames) {
+                if (updraftApps.some((updraftApp: UpdraftAppDetails) => updraftApp.title === profile)) {
+                    existProfiles.push(profile);
+                } else {
+                    // migrate here
+                    let appCenterApp: AppCenterApp = await getAppCenterApp(appCenterAppOwner, profile);
+                    migratedProfiles.push(profile);
+                }
+            }
+
+            spinner.succeed(migratedProfiles?.length > 0 ? `Apps Migrated successfully.` : '');
+            if (existProfiles.length > 0) {
+                console.log(chalk.bold(`\n${existProfiles}`), ` profile(s) already exist within Updraft\n`);
+            }
+            /*
             const appcircleOrgs = await getAppcircleOrganizations();
             const selectedOrg = appcircleOrgs.find((org: any) => org.name === params.appcircleOrganization);
             const migratedProfiles = [];
