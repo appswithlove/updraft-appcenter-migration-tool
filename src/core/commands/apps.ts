@@ -67,6 +67,10 @@ const handleApps = async (command: ProgramCommand, params: any) => {
 
             await uploadAppToUpdraft(appKey, apiKey, tempFilePath);
 
+            if (existsSync(tempFilePath)) {
+                unlinkSync(tempFilePath);
+            }
+
             spinner.succeed('App Migrated successfully');
 
             break;

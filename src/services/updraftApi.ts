@@ -56,5 +56,4 @@ export const uploadAppToUpdraft = async (appKey: string, apiKey: string, filePat
 
     console.log('\nApp uploaded to Updraft successfully.');
     console.log('\nResponse: ', response.data);
-    //return response.data;
 };
