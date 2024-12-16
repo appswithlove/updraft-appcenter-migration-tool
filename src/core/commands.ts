@@ -165,9 +165,9 @@ export const commands: CommandType[] = [
                 longDescription: 'Migrate the specified apps in the specified App Center organization',
                 params: [
                     {
-                        name: 'profileNames',
+                        name: 'profileName',
                         description: 'App Center app names for migration to an Appcircle Testing Distribution Profile',
-                        type: CommandParameterTypes.MULTIPLE_SELECT,
+                        type: CommandParameterTypes.STRING,
                         valueType: 'string',
                     },
                     {
@@ -177,8 +177,14 @@ export const commands: CommandType[] = [
                         valueType: 'string',
                     },
                     {
-                        name: 'updraftOrganization',
-                        description: 'Destination Updraft organization for migration',
+                        name: 'updraftAppKey',
+                        description: 'Your Updraft app key/token. You find it in \'Edit App\'.',
+                        type: CommandParameterTypes.STRING,
+                        valueType: 'string',
+                    },
+                    {
+                        name: 'updraftApiKey',
+                        description: 'Your Updraft api key/token. You find it in \'Profile > Tokens\'.',
                         type: CommandParameterTypes.STRING,
                         valueType: 'string',
                     },

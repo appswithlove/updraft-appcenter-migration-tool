@@ -1,3 +1,4 @@
+import axios from 'axios';
 import chalk from "chalk";
 import { noCommandFound } from './index';
 import { PROGRAM_NAME } from '../../constant';
@@ -6,10 +7,12 @@ import {getAllAppCenterApps, getAppCenterApp, getOrgApps} from '../../services';
 import { createOra } from '../../utils/oraHelper';
 import { CommandTypes } from '../commands';
 import { commandWriter } from '../writer';
-import { getAllUpdraftApps } from '../../services/updraftApi';
+import { uploadAppToUpdraft } from '../../services/updraftApi';
 import {UpdraftAppDetails} from "../../services/interfaces/updraft/app.interface";
 import {AppCenterApp} from "../../services/interfaces/appcenter/app.interface";
 //import { createDistributionProfile, getAppcircleOrganizations, getDistributionProfiles, getSubOrgToken } from '../../services/appcircleApi';
+import { writeFileSync, unlinkSync, existsSync } from 'fs';
+import { join, resolve } from 'path';
 
 const FULL_COMMANDS = ['-apps-list-all-apps', '-apps-list-org-apps', '-apps-migrate-profile'];
 
@@ -41,64 +44,30 @@ const handleApps = async (command: ProgramCommand, params: any) => {
             break;
 
         case FULL_COMMANDS[2]:
-            spinner.text = 'App Center Apps Profile(s) Migrating';
+            spinner.text = 'App Center Apps Profile Migrating';
             spinner.start();
-            params.profileNames = Array.isArray(params.profileNames) ? params.profileNames : params.profileNames.split(' ');
-
-            const updraftApps = await getAllUpdraftApps();
-
-            const migratedProfiles = [];
-            const existProfiles = [];
 
             // needed for this endpoint: https://openapi.appcenter.ms/#/distribute/releases_getLatestByUser
             const appCenterAppOwner: string = params.owner;
-            const updraftOrganization: string = params.updraftOrganization;
+            const appCenterAppName: string = params.profileName;
+            const appKey: string = params.updraftAppKey;
+            const apiKey: string = params.updraftApiKey;
 
-            for (const profile of params.profileNames) {
-                if (updraftApps.some((updraftApp: UpdraftAppDetails) => updraftApp.title === profile)) {
-                    existProfiles.push(profile);
-                } else {
-                    // migrate here
-                    let appCenterApp: AppCenterApp = await getAppCenterApp(appCenterAppOwner, profile);
-                    migratedProfiles.push(profile);
-                }
-            }
+            // migrate here
+            let appCenterApp: AppCenterApp = await getAppCenterApp(appCenterAppOwner, appCenterAppName);
+            const response = await axios.get(appCenterApp.download_url, {
+                responseType: 'arraybuffer',
+            });
+            const binaryFile = response.data;
 
-            spinner.succeed(migratedProfiles?.length > 0 ? `Apps Migrated successfully.` : '');
-            if (existProfiles.length > 0) {
-                console.log(chalk.bold(`\n${existProfiles}`), ` profile(s) already exist within Updraft\n`);
-            }
-            /*
-            const appcircleOrgs = await getAppcircleOrganizations();
-            const selectedOrg = appcircleOrgs.find((org: any) => org.name === params.appcircleOrganization);
-            const migratedProfiles = [];
-            const existProfiles = [];
-            let subOrgToken: undefined | string;
+            // temporary store binary file
+            const tmpFolderPath: string = resolve(__dirname + '/../../../tmp');
+            const tempFilePath = join(tmpFolderPath, `temp-${Date.now()}.apk`); // fix: doesn't have to be apk
+            writeFileSync(tempFilePath, Buffer.from(binaryFile));
 
-            if (!selectedOrg) {
-                spinner.fail(`Appcircle Organization ${params.appcircleOrganization} not found.`);
-                process.exit(1);
-            }
-            if ('rootOrganizationId' in selectedOrg) {
-                subOrgToken = await getSubOrgToken(selectedOrg.id);
-            }
+            await uploadAppToUpdraft(appKey, apiKey, tempFilePath);
 
-            const profiles = await getDistributionProfiles({ subOrgToken });
-
-            for (const profile of params.profileNames) {
-                if (profiles.some((acProfile: any) => acProfile.name === profile)) {
-                    existProfiles.push(profile);
-                } else {
-                    await createDistributionProfile({ name: profile, subOrgToken: subOrgToken });
-                    migratedProfiles.push(profile);
-                }
-            }
-
-            spinner.succeed(migratedProfiles?.length > 0 ? `Testing Distribution profile(s) Created successfully.` : '');
-            if (existProfiles.length > 0) {
-                console.log(chalk.bold(`\n${existProfiles}`), `, profile(s) already exist within Appcircle/${selectedOrg.name} organization\n`);
-            }*/
-            console.log('Not yet implemented for Updraft');
+            spinner.succeed('App Migrated successfully');
 
             break;
 
