@@ -53,7 +53,6 @@ const handleApps = async (command: ProgramCommand, params: any) => {
             const appKey: string = params.updraftAppKey;
             const apiKey: string = params.updraftApiKey;
 
-            // migrate here
             let appCenterApp: AppCenterApp = await getAppCenterApp(appCenterAppOwner, appCenterAppName);
             const response = await axios.get(appCenterApp.download_url, {
                 responseType: 'arraybuffer',
@@ -62,7 +61,7 @@ const handleApps = async (command: ProgramCommand, params: any) => {
 
             // temporary store binary file
             const tmpFolderPath: string = resolve(__dirname + '/../../../tmp');
-            const tempFilePath = join(tmpFolderPath, `temp-${Date.now()}.apk`); // fix: doesn't have to be apk
+            const tempFilePath = join(tmpFolderPath, `temp-${Date.now()}.${appCenterApp.fileExtension}`);
             writeFileSync(tempFilePath, Buffer.from(binaryFile));
 
             await uploadAppToUpdraft(appKey, apiKey, tempFilePath);

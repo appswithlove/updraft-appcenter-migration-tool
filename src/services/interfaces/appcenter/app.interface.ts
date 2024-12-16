@@ -31,6 +31,7 @@ export interface AppCenterApp {
     can_resign: boolean;
     build: Build;
     enabled: boolean;
+    fileExtension: string;
     status: string;
     is_external_build: boolean;
 }
