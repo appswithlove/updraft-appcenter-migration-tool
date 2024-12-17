@@ -41,6 +41,16 @@ List the available apps in the specified App Center organization
 ./bin/appcenter-migration-tool apps list-org-apps --organizationName <organization-name>
 ```
 
+Migrate the specified app from App Center to existing app in Updraft. Parameters:
+- `profileName` - App Center app name for migration to an Updraft
+- `owner` - App Center application owner name
+- `updraftAppKey` - Your Updraft app key/token. You find it in 'Edit App'.
+- `updraftApiKey` - Your Updraft api key/token. You find it in 'Profile > Tokens'.
+
+```bash
+./bin/appcenter-migration-tool apps migrate-profile --profileName="<app-name>" --owner="<owner-name>" --updraftAppKey="<app-key>" --updraftApiKey="<api-key>"
+```
+
 ## Organizations
 
 ```bash

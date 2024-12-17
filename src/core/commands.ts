@@ -166,7 +166,7 @@ export const commands: CommandType[] = [
                 params: [
                     {
                         name: 'profileName',
-                        description: 'App Center app names for migration to an Appcircle Testing Distribution Profile',
+                        description: 'App Center app names for migration to Updraft app',
                         type: CommandParameterTypes.STRING,
                         valueType: 'string',
                     },
