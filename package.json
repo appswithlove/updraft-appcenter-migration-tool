@@ -4,7 +4,7 @@
   "description": "CLI tool for running migration on Appcenter to Appcircle",
   "main": "bin/appcenter-migration-tool",
   "bin": {
-    "appcenter-migration-tool": "bin/appcenter-migration-tool"
+    "appcenter-migration-tool": "./bin/appcenter-migration-tool"
   },
   "scripts": {
     "watch": "rm -rf dist && tsc -w",

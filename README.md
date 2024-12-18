@@ -1,5 +1,19 @@
 # updraft-appcenter-migration-tool
 
+## Installation
+
+
+### Local instalation
+
+1. Clone repository
+2. Navigate to project folder where you want to use the tool
+3. Run `npm install <path-to-repo>`
+
+Run it like this:
+```bash
+npx appcenter-migration-tool <command> <options> 
+```
+
 ### Notes
 
 One file should be executable on Unix-like systems
