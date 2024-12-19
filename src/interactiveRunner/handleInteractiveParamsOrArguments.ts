@@ -25,17 +25,15 @@ const handleInteractiveParamsOrArguments = async (
             param.type = CommandParameterTypes.PASSWORD;
         }
         if (param.name === 'organizationName') {
-            const spinner = ora('Organizations fetching').start();
-            // todo: get organizations from updraft
-            /*const appcircleOrgs = (await getAppcircleOrganizations()).map((org: any) => org.name);
+            const spinner = ora('Fetching available organizations from App Center').start();
+
             const organizationNames = (await getOrganizations()).map((org: any, index: number) => ({
-                message: `${index + 1}. ${org.name} ${appcircleOrgs.includes(org.name) ? '| ✅ Available in Appcircle' : ''}`,
+                message: `${index + 1}. ${org.name}`,
                 value: org.name,
             }));
 
             param.params = organizationNames;
-            spinner.succeed('Organizations fetched successfully');*/
-            console.log('Not implemented yet for updraft');
+            spinner.succeed('Organizations fetched successfully');
         } else if (param.name === 'organizationNames') {
             /*const spinner = ora('Organizations fetching').start();
             const appcircleOrgs = (await getAppcircleOrganizations()).map((org: any) => org.name);
