@@ -1,7 +1,7 @@
 {
-  "name": "@appcircle/appcenter-migration-tool",
+  "name": "@updraft/appcenter-migration-tool",
   "version": "0.0.1",
-  "description": "CLI tool for running migration on Appcenter to Appcircle",
+  "description": "CLI tool for running migration on Appcenter to Updraft",
   "main": "bin/appcenter-migration-tool",
   "bin": {
     "appcenter-migration-tool": "./bin/appcenter-migration-tool"
@@ -12,7 +12,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "postuninstall": "node ./postuninstall.js"
   },
-  "author": "Appcircle",
+  "author": "Updraft",
   "license": "MIT",
   "files": [
     "bin/",
@@ -21,7 +21,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/appcircleio/appcenter-migration-tool.git"
+    "url": "git+https://github.com/appswithlove/updraft-appcenter-migration-tool.git"
   },
   "keywords": [
     "appcenter",
@@ -34,7 +34,7 @@
   "resolutions": {
     "ora/strip-ansi": "6.0.1"
   },
-  "homepage": "https://github.com/appcircleio/appcenter-migration-tool#readme",
+  "homepage": "https://github.com/appswithlove/updraft-appcenter-migration-tool#updraft-appcenter-migration-tool",
   "dependencies": {
     "axios": "^0.27.1",
     "chalk": "^4.1.2",

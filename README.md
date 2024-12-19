@@ -3,7 +3,7 @@
 ## Installation
 
 
-### Local instalation
+### Local Installation
 
 1. Clone repository
 2. Navigate to project folder where you want to use the tool
@@ -13,6 +13,18 @@ Run it like this:
 ```bash
 npx appcenter-migration-tool <command> <options> 
 ```
+
+### Global Installation
+
+1. Clone repository
+2. Navigate to project folder
+3. Run `npm install -g .`
+
+Run it like this:
+```bash
+appcenter-migration-tool <command> <options> 
+```
+
 
 ### Notes
 
