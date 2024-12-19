@@ -91,47 +91,6 @@ export const commands: CommandType[] = [
                 longDescription: 'List available organizations in App Center',
                 params: [],
             },
-            {
-                command: 'migrate-orgs',
-                description: 'Migrate App Center organizations to Appcircle',
-                longDescription: 'Migrate App Center organizations to Appcircle',
-                params: [
-                    {
-                        name: 'organizationNames',
-                        description: 'App Center organization names',
-                        type: CommandParameterTypes.MULTIPLE_SELECT,
-                        valueType: 'string',
-                    },
-                ],
-            },
-            {
-                command: 'migrate-collab',
-                description: 'Migrate collaborators in App Center organization',
-                longDescription: 'Migrate collaborators in App Center organization',
-                params: [
-                    {
-                        name: 'organizationName',
-                        description: 'App Center organization name',
-                        type: CommandParameterTypes.SELECT,
-                        valueType: 'string',
-                        required: true,
-                    },
-                    {
-                        name: 'organizationUsers',
-                        description: 'App Center organizations users for migration',
-                        type: CommandParameterTypes.MULTIPLE_SELECT,
-                        valueType: 'string',
-                        required: true,
-                    },
-                    {
-                        name: 'appcircleOrganization',
-                        description: 'Destination Appcircle organization for migration',
-                        type: CommandParameterTypes.SELECT,
-                        valueType: 'string',
-                        required: true,
-                    },
-                ],
-            },
         ],
     },
     {

@@ -7,7 +7,7 @@ import { createOra } from '../../utils/oraHelper';
 import { getAppDistributionGroups, getOrgDistributionGroups, getOrgUsers, getOrganizations } from '../../services';
 //import { createSubOrganization, getAppcircleOrganizations, inviteUserToOrganization } from '../../services/appcircleApi';
 
-const FULL_COMMANDS = ['-organizations-list-appcenter-orgs', '-organizations-migrate-orgs', '-organizations-migrate-collab'];
+const FULL_COMMANDS = ['-organizations-list-appcenter-orgs'];
 
 type RoleMapperReturnType = { [key: string]: string | undefined };
 const appCenterTestingGroupMapping = (role: string) => {
@@ -44,70 +44,6 @@ const handleOrganizations = async (command: ProgramCommand, params: any) => {
                 fullCommandName: command.fullCommandName,
                 data: organizationList,
             });
-            break;
-
-        case FULL_COMMANDS[1]:
-            /*spinner.text = 'Organization(s) creation migration in progress';
-            spinner.start();
-            params.organizationNames = Array.isArray(params.organizationNames) ? params.organizationNames : params.organizationNames.split(' ');
-            const invalidOrgNames = [];
-            const validOrgNames = [];
-            const appcenterOrgs = await getOrganizations();
-
-            if (appcenterOrgs.length === 0) {
-                spinner.fail('No organization found in App Center');
-                return;
-            }
-
-            const appcircleOrgs = await getAppcircleOrganizations();
-
-            for (let orgName of params.organizationNames) {
-                console.log(
-                    'appcenterOrgs.find((org: any) => org.name === orgName):',
-                    appcenterOrgs.find((org: any) => org.name === orgName),
-                );
-                if (appcenterOrgs.find((org: any) => org.name === orgName)) {
-                    await createSubOrganization(addNameWithSuffix(appcircleOrgs, orgName));
-                    validOrgNames.push(orgName);
-                } else {
-                    invalidOrgNames.push(orgName);
-                }
-            }
-
-            let successMessage = '';
-            if (validOrgNames.length > 0) {
-                successMessage += `${validOrgNames.length} Organization(s) migrated successfully ${invalidOrgNames.length > 0 ? ', ' : '.'}`;
-            }
-            if (invalidOrgNames.length > 0) {
-                successMessage += `Organization(s) "${invalidOrgNames.join(', ')}" were not found in App Center.`;
-            }
-
-            spinner.succeed(successMessage);*/
-            console.log('Not yet implemented for Updraft');
-            break;
-
-        case FULL_COMMANDS[2]:
-            /*spinner.text = 'Selected Organization Collaborators Fetching';
-            spinner.start();
-            params.organizationUsers = Array.isArray(params.organizationUsers) ? params.organizationUsers : params.organizationUsers.split(' ');
-
-            const organizationUsers = await getOrgUsers(params.organizationName);
-
-            const selectedAppcircleOrg = (await getAppcircleOrganizations()).filter((org: any) => params.appcircleOrganization.includes(org.name));
-            for (let email of params.organizationUsers) {
-                const selectedUser = organizationUsers.find((orgUser: any) => orgUser.email === email);
-                const testGroupRole = appCenterTestingGroupMapping(selectedUser.role);
-                const distProfileRole = appcenterDistProfileMapping(selectedUser.role);
-
-                await inviteUserToOrganization({ organizationId: selectedAppcircleOrg[0].id, email, role: [testGroupRole, distProfileRole] }).catch((err) =>
-                    console.error(`\nFailed to migrate ${email}, ${err}\n`),
-                );
-                spinner.text = `${email} invited to selected organizations`;
-            }
-
-            spinner.succeed('Given Organization Collaborators migrated successfully.');*/
-            console.log('Not yet implemented for Updraft');
-
             break;
 
         default:
