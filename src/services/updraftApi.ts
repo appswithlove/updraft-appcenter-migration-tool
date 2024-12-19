@@ -7,7 +7,7 @@ import FormData from "form-data";
 export const UPDRAFT_API_HOSTNAME = readEnviromentConfigVariable(EnvironmentVariables.UPDRAFT_API_HOSTNAME);
 export const UPDRAFT_AUTHORIZATION_TOKEN = readEnviromentConfigVariable(EnvironmentVariables.UPDRAFT_AUTHORIZATION_TOKEN);
 
-export const appcenterApi = axios.create({
+export const updraftApi = axios.create({
     baseURL: UPDRAFT_API_HOSTNAME,
     headers: {
         'Content-Type': 'application/json',
@@ -16,7 +16,7 @@ export const appcenterApi = axios.create({
 });
 
 export const getAllUpdraftApps = async (): Promise<UpdraftAppDetails[]> => {
-    const response = await appcenterApi.get(
+    const response = await updraftApi.get(
         '/api/applications',
         {
             headers: {
