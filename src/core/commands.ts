@@ -137,7 +137,7 @@ export const commands: CommandType[] = [
                     },
                     {
                         name: 'updraftAppKey',
-                        description: 'Your Updraft app key/token. You find it in \'Edit App\'.',
+                        description: 'Your Updraft app key/token.',
                         type: CommandParameterTypes.STRING,
                         valueType: 'string',
                     },
