@@ -19,8 +19,7 @@ const handleInteractiveParamsOrArguments = async (
     const selectAll = { message: 'Select All', value: 'Select All' };
 
     for (let param of commandParams) {
-        // todo: updraftToken instead of appcircleToken
-        if (param.name === 'appcircleToken' || param.name === 'appcenterToken') {
+        if (param.name === 'updraftToken' || param.name === 'appcenterToken') {
             param.type = CommandParameterTypes.PASSWORD;
         }
         if (param.name === 'organizationName') {
