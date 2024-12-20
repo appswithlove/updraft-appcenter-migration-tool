@@ -95,3 +95,23 @@ List distribution groups in specified App Center app
 ```bash
 ./bin/appcenter-migration-tool distribution-groups list-app-distgroups --appName <app-name> --organizationName <organization-name>
 ```
+
+# Interactive mode
+
+You can run interactive mode like this:
+
+```bash
+./bin/appcenter-migration-tool -i
+```
+
+Or if you installed package locally:
+
+```bash
+npx appcenter-migration-tool -i
+```
+
+Or if you installed package globally:
+
+```bash
+appcenter-migration-tool -i
+```

@@ -11,8 +11,6 @@ import { collectErrorMessageFromData } from '../../main';
 const FULL_COMMANDS = [
     '-distribution-groups-list-org-distgroups',
     '-distribution-groups-list-app-distgroups',
-    '-distribution-groups-migrate-org-distgroups',
-    '-distribution-groups-migrate-app-distgroups',
 ];
 
 const handleDistributionGroup = async (command: ProgramCommand, params: any) => {
