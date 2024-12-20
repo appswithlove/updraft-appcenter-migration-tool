@@ -1,5 +1,4 @@
 import Conf from 'conf';
-//import { AC_API_HOSTNAME } from './services/appcircleApi';
 
 export type ConsoleOutputType = 'json' | 'plain';
 

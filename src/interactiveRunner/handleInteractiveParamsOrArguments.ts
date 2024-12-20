@@ -7,7 +7,6 @@ import {
     getOrgDistributionGroups,
     getAppDistributionGroups,
     getOrgApps,
-    getAllAppCenterApps,
 } from '../services';
 import ora from 'ora';
 //@ts-ignore https://github.com/enquirer/enquirer/issues/212
@@ -34,18 +33,7 @@ const handleInteractiveParamsOrArguments = async (
 
             param.params = organizationNames;
             spinner.succeed('Organizations fetched successfully');
-        } else if (param.name === 'organizationNames') {
-            /*const spinner = ora('Organizations fetching').start();
-            const appcircleOrgs = (await getAppcircleOrganizations()).map((org: any) => org.name);
-            const organizationNames = (await getOrganizations()).map((org: any, index: number) => ({
-                message: `${index + 1}. ${org.name} ${appcircleOrgs.includes(org.name) ? '| ✅ Available in Appcircle' : ''}`,
-                value: org.name,
-            }));
-
-            param.params = [selectAll, ...organizationNames];
-            spinner.succeed('Organizations fetched successfully');*/
-            console.log('Not implemented yet for updraft');
-        } else if (param.name === 'organizationUsers') {
+        }  else if (param.name === 'organizationUsers') {
             const spinner = ora('Organization Users fetching').start();
             const organizationUsers = await getOrgUsers(params.organizationName).then((orgs) =>
                 orgs.map((org: any, index: number) => ({ message: `${index + 1}. ${org.email}`, value: org.email })),
@@ -84,16 +72,7 @@ const handleInteractiveParamsOrArguments = async (
 
             param.params = [selectAll, ...appUsers];
             spinner.succeed('Organization Users fetched successfully');
-        } else if (param.name === 'appcircleOrganization') {
-            /*const spinner = ora('Appcircle Organizations fetching').start();
-            const appcircleOrganizations = (await getAppcircleOrganizations()).map((org: any, index: number) => ({
-                message: `${index + 1}. ${org?.rootOrganizationName ? org.rootOrganizationName + ' | ' + org.name : org.name}`,
-                value: org.name,
-            }));
-            param.params = appcircleOrganizations;
-            spinner.succeed('Appcircle Organizations fetched successfully');*/
-            console.log('Not implemented yet for updraft');
-        } else if (param.name === 'distributionGroupName') {
+        }  else if (param.name === 'distributionGroupName') {
             const spinner = ora('Distribution Group fetching').start();
             const distributionGroupNames = (await getOrgDistributionGroups(params.organizationName)).map((distGroup: any, index: number) => ({
                 message: `${index + 1}. ${distGroup.name}`,
@@ -125,17 +104,7 @@ const handleInteractiveParamsOrArguments = async (
             const orgApps = (await getOrgApps(params.organizationName)).map((app: any, index: number) => ({ message: `${index + 1}. ${app.name}`, value: app.name }));
             param.params = orgApps;
             spinner.succeed();
-        } else if (param.name === 'profileNames') {
-            /*const spinner = ora('App Center Apps fetching').start();
-            const appcircleTestDistProfiles = (await getDistributionProfiles()).map((profile: any) => profile.name);
-            const orgApps = (await getAllAppCenterApps()).map((app: any, index: number) => ({
-                message: `${index + 1}. ${app.owner.name}/${app.name} ${appcircleTestDistProfiles.includes(app.name) ? '| ✅ Available in Appcircle' : ''}`,
-                value: app.name,
-            }));
-            param.params = orgApps;
-            spinner.succeed();*/
-            console.log('Not implemented yet for updraft');
-        } else if (param.name === 'appDistGroupName') {
+        }  else if (param.name === 'appDistGroupName') {
             const spinner = ora('Distribution Group fetching').start();
             const appDistGroupNames = (await getAppDistributionGroups(params.organizationName, params.appName)).map((distGroup: any, index: number) => ({
                 message: `${index + 1}. ${distGroup.name}`,
@@ -143,16 +112,6 @@ const handleInteractiveParamsOrArguments = async (
             }));
             param.params = appDistGroupNames;
             spinner.succeed();
-        } else if (param.name === 'appcircleProfileName') {
-            /*const spinner = ora('Appcircle Profiles fetching').start();
-            spinner.succeed('Appcircle Profiles fetched successfully');
-            const appcenterApps = (await getAllAppCenterApps()).map((app: any) => app.name);
-            const profiles = (await getDistributionProfiles()).map((app: any, index: number) => ({
-                message: `${index + 1}. ${app.name} ${appcenterApps.includes(app.name) ? '| ✅ Migrated' : ''}`,
-                value: app.name,
-            }));
-            param.params = profiles;*/
-            console.log('Not implemented yet for updraft');
         }
 
         // If has paramType and type  match to selected type
