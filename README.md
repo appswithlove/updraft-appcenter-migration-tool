@@ -1,6 +1,10 @@
 # updraft-appcenter-migration-tool
 The App Center Migration Tool is a CLI designed to help App Center Organizations seamlessly transfer their apps and app releases to Updraft (getupdraft.com). This tool will help to streamlin the app center migration process, ensuring a smooth transition between App Center and Updraft App Distribution platform.
 
+## Precondition
+- For a smooth transfer, it is important that you have already registered with Updraft.
+- You have also already created your projects and apps. Since Updraft has a project hierarchy and several apps for iOS, Android and Windows come together in one project, this step is required
+
 ## Installation
 
 
