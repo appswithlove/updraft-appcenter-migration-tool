@@ -1,18 +1,11 @@
-import axios from 'axios';
-import chalk from "chalk";
 import { noCommandFound } from './index';
 import { PROGRAM_NAME } from '../../constant';
 import { ProgramCommand } from '../../program';
-import {getAllAppCenterApps, getAppCenterApp, getOrgApps} from '../../services';
+import {getAllAppCenterApps, getOrgApps} from '../../services';
 import { createOra } from '../../utils/oraHelper';
 import { CommandTypes } from '../commands';
 import { commandWriter } from '../writer';
-import { uploadAppToUpdraft } from '../../services/updraftApi';
-import {UpdraftAppDetails} from "../../services/interfaces/updraft/app.interface";
-import {AppCenterApp} from "../../services/interfaces/appcenter/app.interface";
-//import { createDistributionProfile, getAppcircleOrganizations, getDistributionProfiles, getSubOrgToken } from '../../services/appcircleApi';
-import { writeFileSync, unlinkSync, existsSync } from 'fs';
-import { join, resolve } from 'path';
+import { migrateAllAppReleasesToUpdraft } from '../../services/updraftApi';
 
 const FULL_COMMANDS = ['-apps-list-all-apps', '-apps-list-org-apps', '-apps-migrate-profile'];
 
@@ -47,28 +40,12 @@ const handleApps = async (command: ProgramCommand, params: any) => {
             spinner.text = 'App Center Apps Profile Migrating';
             spinner.start();
 
-            // needed for this endpoint: https://openapi.appcenter.ms/#/distribute/releases_getLatestByUser
             const appCenterAppOwner: string = params.owner;
             const appCenterAppName: string = params.profileName;
             const appKey: string = params.updraftAppKey;
             const apiKey: string = params.updraftApiKey;
 
-            let appCenterApp: AppCenterApp = await getAppCenterApp(appCenterAppOwner, appCenterAppName);
-            const response = await axios.get(appCenterApp.download_url, {
-                responseType: 'arraybuffer',
-            });
-            const binaryFile = response.data;
-
-            // temporary store binary file
-            const tmpFolderPath: string = resolve(__dirname + '/../../../tmp');
-            const tempFilePath = join(tmpFolderPath, `temp-${Date.now()}.${appCenterApp.fileExtension}`);
-            writeFileSync(tempFilePath, Buffer.from(binaryFile));
-
-            await uploadAppToUpdraft(appKey, apiKey, tempFilePath);
-
-            if (existsSync(tempFilePath)) {
-                unlinkSync(tempFilePath);
-            }
+            await migrateAllAppReleasesToUpdraft(appCenterAppOwner, appCenterAppName, appKey, apiKey);
 
             spinner.succeed('App Migrated successfully');
 
