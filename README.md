@@ -70,7 +70,8 @@ List the available apps in the specified App Center organization
 ./bin/appcenter-migration-tool apps list-org-apps --organizationName <organization-name>
 ```
 
-Migrate the specified app from App Center to existing app in Updraft. Parameters:
+Migrate the specified app from App Center to existing app in Updraft. This will migrate all app releases from App Center
+to Updraft. Each app release in App Center will correspond to app build in Updraft app. Command parameters:
 - `profileName` - App Center app name for migration to an Updraft
 - `owner` - App Center application owner name
 - `updraftAppKey` - Your Updraft app key/token. You find it in 'Edit App'.

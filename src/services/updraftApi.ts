@@ -3,6 +3,12 @@ import { EnvironmentVariables, readEnviromentConfigVariable } from '../config';
 import { UpdraftAppDetails } from './interfaces/updraft/app.interface';
 import { createReadStream } from 'fs';
 import FormData from "form-data";
+import { appcenterApi} from "./appcenterApi";
+import {AppRelease} from "./interfaces/appcenter/app-release.interface";
+import { writeFileSync, unlinkSync, existsSync } from 'fs';
+import { join, resolve } from 'path';
+import {AppCenterApp} from "./interfaces/appcenter/app.interface";
+import { getSingleAppReleaseFromAppCenterApp } from "./index";
 
 export const UPDRAFT_API_HOSTNAME = readEnviromentConfigVariable(EnvironmentVariables.UPDRAFT_API_HOSTNAME);
 export const UPDRAFT_AUTHORIZATION_TOKEN = readEnviromentConfigVariable(EnvironmentVariables.UPDRAFT_AUTHORIZATION_TOKEN);
@@ -28,7 +34,7 @@ export const getAllUpdraftApps = async (): Promise<UpdraftAppDetails[]> => {
     return response.data;
 };
 
-export const uploadAppToUpdraft = async (appKey: string, apiKey: string, filePath: string) => {
+export const uploadAppReleaseToUpdraft = async (appKey: string, apiKey: string, filePath: string) => {
     const api = axios.create({
         baseURL: UPDRAFT_API_HOSTNAME,
         maxBodyLength: Infinity,
@@ -57,3 +63,28 @@ export const uploadAppToUpdraft = async (appKey: string, apiKey: string, filePat
     console.log('\nApp uploaded to Updraft successfully.');
     console.log('\nResponse: ', response.data);
 };
+
+export const migrateAllAppReleasesToUpdraft = async (owner: string, appName: string, updraftAppKey: string, updraftApiKey: string) => {
+    const response = await appcenterApi(`/apps/${owner}/${appName}/releases`);
+    const appReleases: AppRelease[] = response.data;
+
+    for (const release of appReleases) {
+        const response = await appcenterApi(`/apps/${owner}/${appName}/releases/${release.id}`);
+        const appRelease: AppRelease = response.data;
+
+        const appCenterApp: AppCenterApp = await getSingleAppReleaseFromAppCenterApp(owner, appName, appRelease.id);
+
+        const binaryFileResponse = await axios.get(appCenterApp.download_url, {
+            responseType: 'arraybuffer',
+        });
+        const binaryFile = binaryFileResponse.data;
+
+        // temporary store binary file
+        const filePath = resolve(join(__dirname, '..', '..', 'tmp', 'binary.apk'));
+        writeFileSync(filePath, binaryFile);
+
+        await uploadAppReleaseToUpdraft(updraftAppKey, updraftApiKey, filePath);
+
+        unlinkSync(filePath);
+    }
+}
