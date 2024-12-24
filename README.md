@@ -3,7 +3,10 @@ The App Center Migration Tool is a CLI designed to help App Center Organizations
 
 ## Precondition
 - For a smooth transfer, it is important that you have already registered with Updraft.
-- You have also already created your projects and apps. Since Updraft has a project hierarchy and several apps for iOS, Android and Windows come together in one project, this step is required
+- You have also already created your projects and apps. Since Updraft has a project hierarchy and several apps for iOS, Android and Windows come together in one project, this step is required.
+- You need your API key from Microsoft App Center
+- You need your API key from Updraft
+- You need your APP keys from Updraft
 
 ## Installation
 
