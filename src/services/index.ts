@@ -85,7 +85,7 @@ export const getDistGroupUsersForApp = async (orgName: string, appName: string, 
     return response.data.sort((a: { email: string }, b: { email: any }) => a.email.localeCompare(b.email));
 };
 
-export const getAppReleaseCenterApp = async (owner: string, appName: string, release: number) => {
+export const getSingleAppReleaseFromAppCenterApp = async (owner: string, appName: string, release: number) => {
     const response = await appcenterApi(`/apps/${owner}/${appName}/releases/${release}`);
 
     return response.data;

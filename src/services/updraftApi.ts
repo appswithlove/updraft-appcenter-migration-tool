@@ -8,7 +8,7 @@ import {AppRelease} from "./interfaces/appcenter/app-release.interface";
 import { writeFileSync, unlinkSync, existsSync } from 'fs';
 import { join, resolve } from 'path';
 import {AppCenterApp} from "./interfaces/appcenter/app.interface";
-import {getAppReleaseCenterApp} from "./index";
+import { getSingleAppReleaseFromAppCenterApp } from "./index";
 
 export const UPDRAFT_API_HOSTNAME = readEnviromentConfigVariable(EnvironmentVariables.UPDRAFT_API_HOSTNAME);
 export const UPDRAFT_AUTHORIZATION_TOKEN = readEnviromentConfigVariable(EnvironmentVariables.UPDRAFT_AUTHORIZATION_TOKEN);
@@ -72,7 +72,7 @@ export const migrateAllAppReleasesToUpdraft = async (owner: string, appName: str
         const response = await appcenterApi(`/apps/${owner}/${appName}/releases/${release.id}`);
         const appRelease: AppRelease = response.data;
 
-        const appCenterApp: AppCenterApp = await getAppReleaseCenterApp(owner, appName, appRelease.id);
+        const appCenterApp: AppCenterApp = await getSingleAppReleaseFromAppCenterApp(owner, appName, appRelease.id);
 
         const binaryFileResponse = await axios.get(appCenterApp.download_url, {
             responseType: 'arraybuffer',
