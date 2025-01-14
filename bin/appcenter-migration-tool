@@ -1,3 +1,2 @@
 #!/usr/bin/env node
-require = require('esm')(module /*, options*/);
-require('../dist/main.js');
+import '../dist/main.js';
