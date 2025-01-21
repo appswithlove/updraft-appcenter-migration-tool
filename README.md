@@ -16,6 +16,7 @@ The App Center Migration Tool is a CLI designed to help App Center Organizations
 1. Clone repository
 2. Navigate to project folder where you want to use the tool
 3. Run `npm install <path-to-repo>`
+4. Run `npm run build`
 
 Run it like this:
 ```bash
@@ -27,6 +28,7 @@ npx appcenter-migration-tool <command> <options>
 1. Clone repository
 2. Navigate to project folder
 3. Run `npm install -g .`
+4. Run `npm run build`
 
 Run it like this:
 ```bash
