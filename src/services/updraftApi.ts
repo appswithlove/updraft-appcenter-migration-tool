@@ -5,7 +5,7 @@ import { createReadStream } from 'fs';
 import FormData from "form-data";
 import { appcenterApi} from "./appcenterApi";
 import {AppRelease} from "./interfaces/appcenter/app-release.interface";
-import { writeFileSync, unlinkSync, existsSync } from 'fs';
+import { readdirSync, writeFileSync, unlinkSync, existsSync } from 'fs';
 import { join, resolve } from 'path';
 import {AppCenterApp} from "./interfaces/appcenter/app.interface";
 import { getSingleAppReleaseFromAppCenterApp } from "./index";
@@ -65,6 +65,8 @@ export const uploadAppReleaseToUpdraft = async (appKey: string, apiKey: string, 
 };
 
 export const migrateAllAppReleasesToUpdraft = async (owner: string, appName: string, updraftAppKey: string, updraftApiKey: string) => {
+    cleanTmpFolder();
+
     const response = await appcenterApi(`/apps/${owner}/${appName}/releases`);
     const appReleases: AppRelease[] = response.data;
 
@@ -86,5 +88,30 @@ export const migrateAllAppReleasesToUpdraft = async (owner: string, appName: str
         await uploadAppReleaseToUpdraft(updraftAppKey, updraftApiKey, filePath);
 
         unlinkSync(filePath);
+    }
+}
+
+const cleanTmpFolder = () => {
+    const path = resolve(join(__dirname, '..', '..', 'tmp'));
+
+    if (! existsSync(path)) {
+        throw new Error('tmp folder does not exist');
+    }
+
+    try {
+        const files = readdirSync(path);
+
+        for (const file of files) {
+            if (file === '.gitignore') {
+                continue;
+            }
+
+            const filePath = join(path, file);
+            unlinkSync(filePath); // Delete the file
+        }
+
+        console.log('tmp folder cleaned successfully.');
+    } catch (error) {
+        console.error('Error while cleaning tmp folder:', error);
     }
 }
