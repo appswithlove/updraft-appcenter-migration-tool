@@ -82,7 +82,7 @@ export const migrateAllAppReleasesToUpdraft = async (owner: string, appName: str
         const binaryFile = binaryFileResponse.data;
 
         // temporary store binary file
-        const filePath = resolve(join(__dirname, '..', '..', 'tmp', 'binary.apk'));
+        const filePath = resolve(join(__dirname, '..', '..', 'tmp', 'binary.' + release.file_extension));
         writeFileSync(filePath, binaryFile);
 
         await uploadAppReleaseToUpdraft(updraftAppKey, updraftApiKey, filePath);
