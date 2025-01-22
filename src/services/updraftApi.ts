@@ -64,13 +64,19 @@ export const uploadAppReleaseToUpdraft = async (appKey: string, apiKey: string, 
     console.log('\nResponse: ', response.data);
 };
 
-export const migrateAllAppReleasesToUpdraft = async (owner: string, appName: string, updraftAppKey: string, updraftApiKey: string) => {
+export const migrateAllAppReleasesToUpdraft = async (owner: string, appName: string, updraftAppKey: string, updraftApiKey: string, ignoreDisabledReleases: boolean) => {
     cleanTmpFolder();
 
     const response = await appcenterApi(`/apps/${owner}/${appName}/releases`);
     const appReleases: AppRelease[] = response.data;
 
     for (const release of appReleases) {
+
+        if (ignoreDisabledReleases && !release.enabled) {
+            console.log(`\n Release ${release.id} is disabled. Skipping...`);
+            continue;
+        }
+
         const response = await appcenterApi(`/apps/${owner}/${appName}/releases/${release.id}`);
         const appRelease: AppRelease = response.data;
 

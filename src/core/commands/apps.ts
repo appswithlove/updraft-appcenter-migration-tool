@@ -44,8 +44,9 @@ const handleApps = async (command: ProgramCommand, params: any) => {
             const appCenterAppName: string = params.profileName;
             const appKey: string = params.updraftAppKey;
             const apiKey: string = params.updraftApiKey;
+            const ignoreDisabledReleases = params.ignoreDisabled === 'true' || params.ignoreDisabled === true;
 
-            await migrateAllAppReleasesToUpdraft(appCenterAppOwner, appCenterAppName, appKey, apiKey);
+            await migrateAllAppReleasesToUpdraft(appCenterAppOwner, appCenterAppName, appKey, apiKey, ignoreDisabledReleases);
 
             spinner.succeed('App Migrated successfully');
 

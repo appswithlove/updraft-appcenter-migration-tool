@@ -147,6 +147,12 @@ export const commands: CommandType[] = [
                         type: CommandParameterTypes.STRING,
                         valueType: 'string',
                     },
+                    {
+                        name: 'ignoreDisabled',
+                        description: 'Ignore disabled app releases in App Center if this flag is set to true',
+                        type: CommandParameterTypes.BOOLEAN,
+                        required: false,
+                    },
                 ],
             },
         ],
