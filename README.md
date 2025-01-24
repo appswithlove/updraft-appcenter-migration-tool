@@ -10,6 +10,7 @@ The App Center Migration Tool is a CLI designed to help App Center Organizations
 
 ## Installation
 
+Node version v23.0.0 or higher is required.
 
 ### Local Installation
 
