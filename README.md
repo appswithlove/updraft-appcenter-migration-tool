@@ -81,6 +81,7 @@ to Updraft. Each app release in App Center will correspond to app build in Updra
 - `owner` - App Center application owner name
 - `updraftAppKey` - Your Updraft app key/token. You find it in 'Edit App'.
 - `updraftApiKey` - Your Updraft api key/token. You find it in 'Profile > Tokens'.
+- `ignoreDisabled` - Optional parameter. If set to true, the tool will ignore disabled releases in App Center. Default value is false.
 
 ```bash
 ./bin/appcenter-migration-tool apps migrate-profile --profileName="<app-name>" --owner="<owner-name>" --updraftAppKey="<app-key>" --updraftApiKey="<api-key>"
