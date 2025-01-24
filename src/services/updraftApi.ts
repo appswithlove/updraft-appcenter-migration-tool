@@ -34,7 +34,7 @@ export const getAllUpdraftApps = async (): Promise<UpdraftAppDetails[]> => {
     return response.data;
 };
 
-export const uploadAppReleaseToUpdraft = async (appKey: string, apiKey: string, filePath: string) => {
+export const uploadAppReleaseToUpdraft = async (appKey: string, apiKey: string, filePath: string, fileExtension: string) => {
     const api = axios.create({
         baseURL: UPDRAFT_API_HOSTNAME,
         maxBodyLength: Infinity,
@@ -44,7 +44,7 @@ export const uploadAppReleaseToUpdraft = async (appKey: string, apiKey: string, 
     console.log('\nUploading app to Updraft...');
 
     const formData = new FormData();
-    formData.append('app', createReadStream(filePath), 'file.apk');
+    formData.append('app', createReadStream(filePath), `file.${fileExtension}`);
 
     const response = await api.put(
         `/api/app_upload/${appKey}/${apiKey}/`,
@@ -91,7 +91,7 @@ export const migrateAllAppReleasesToUpdraft = async (owner: string, appName: str
         const filePath = resolve(join(__dirname, '..', '..', 'tmp', 'binary.' + release.file_extension));
         writeFileSync(filePath, binaryFile);
 
-        await uploadAppReleaseToUpdraft(updraftAppKey, updraftApiKey, filePath);
+        await uploadAppReleaseToUpdraft(updraftAppKey, updraftApiKey, filePath, release.file_extension);
 
         unlinkSync(filePath);
     }
@@ -116,7 +116,7 @@ const cleanTmpFolder = () => {
             unlinkSync(filePath); // Delete the file
         }
 
-        console.log('tmp folder cleaned successfully.');
+        console.log('\ntmp folder cleaned successfully.');
     } catch (error) {
         console.error('Error while cleaning tmp folder:', error);
     }
