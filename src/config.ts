@@ -23,7 +23,7 @@ export enum EnvironmentVariables {
 export const DefaultEnvironmentVariables = {
     API_HOSTNAME: 'https://api.appcenter.ms/v0.1',
     APPCENTER_TOKEN: '',
-    UPDRAFT_API_HOSTNAME: 'https://u2.getupdraft.com',
+    UPDRAFT_API_HOSTNAME: 'https://getupdraft.com',
     UPDRAFT_AUTHORIZATION_TOKEN: '',
 };
 
