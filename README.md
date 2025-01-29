@@ -128,3 +128,13 @@ Or if you installed package globally:
 ```bash
 appcenter-migration-tool -i
 ```
+
+
+# Clear cache
+
+Configuration values like api hostnames are cached. In case you change those values, you'll want to clear the cache. You can do that by running:
+
+```bash
+chmod +x ./bin/clear-cache
+./bin/clear-cache
+```
