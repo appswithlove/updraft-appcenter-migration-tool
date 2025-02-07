@@ -57,7 +57,7 @@ export const uploadAppReleaseToUpdraft = async (appKey: string, apiKey: string, 
     );
 
     if (response.status !== 202 && response.status !== 200) {
-        throw new Error('Could not upload the app to Updraft');
+        throw new Error(`Initial upload to Updraft failed with status: ${response.status}`);
     }
 
     // handle async processing
@@ -66,7 +66,7 @@ export const uploadAppReleaseToUpdraft = async (appKey: string, apiKey: string, 
         const isUploadedSuccessfully: boolean = await checkProcessingStatus(buildProcessingUrl);
 
         if (!isUploadedSuccessfully) {
-            throw new Error('Could not upload the app to Updraft');
+            throw new Error('App upload was accepted but failed during async processing.');
         }
     }
 
