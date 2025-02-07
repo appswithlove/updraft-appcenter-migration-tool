@@ -27,6 +27,7 @@ const writersMap: { [key in CommandTypes]: (data: any) => void } = {
             data?.data?.map((app: any) => ({
                 ID: app?.id,
                 Name: app?.name,
+                'Display Name': app?.display_name,
                 'Owner Organization': app?.owner.name,
             })),
         );
