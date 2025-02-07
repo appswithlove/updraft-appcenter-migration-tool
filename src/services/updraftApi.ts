@@ -56,13 +56,56 @@ export const uploadAppReleaseToUpdraft = async (appKey: string, apiKey: string, 
         }
     );
 
-    if (response.status !== 200) {
-        throw new Error('Could not upload the app to Updraft');
+    if (response.status !== 202 && response.status !== 200) {
+        throw new Error(`Initial upload to Updraft failed with status: ${response.status}`);
+    }
+
+    // handle async processing
+    if (response.status === 202) {
+        const buildProcessingUrl: string = `${UPDRAFT_API_HOSTNAME}/api/app_upload/${appKey}/${apiKey}/${response.data.task_id}/`;
+        const isUploadedSuccessfully: boolean = await checkProcessingStatus(buildProcessingUrl);
+
+        if (!isUploadedSuccessfully) {
+            throw new Error('App upload was accepted but failed during async processing.');
+        }
     }
 
     console.log('\nApp uploaded to Updraft successfully.');
     console.log('\nResponse: ', response.data);
 };
+
+async function checkProcessingStatus(buildProcessingUrl: string): Promise<boolean> {
+    const waitTimeInMs: number = 10000;
+
+    while (true) {
+        try {
+            const response = await fetch(buildProcessingUrl, {
+                headers: {
+                    'Accept': 'application/json',
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error while checking for processing status! Status: ${response.status}`);
+            }
+
+            await response.json();
+
+            if (response.status === 201) {
+                return true;
+            } else if (response.status !== 202) {
+                return false;
+            }
+
+            console.log(`Processing still in progress, checking again in ${waitTimeInMs / 1000}s...`);
+        } catch (error) {
+            console.error('\nError while checking processing status:', error);
+            return false;
+        }
+
+        await new Promise(resolve => setTimeout(resolve, waitTimeInMs));
+    }
+}
 
 export const migrateAllAppReleasesToUpdraft = async (owner: string, appName: string, updraftAppKey: string, updraftApiKey: string, ignoreDisabledReleases: boolean) => {
     cleanTmpFolder();
