@@ -78,7 +78,9 @@ List the available apps in the specified App Center organization
 
 Migrate the specified app from App Center to existing app in Updraft. This will migrate all app releases from App Center
 to Updraft. Each app release in App Center will correspond to app build in Updraft app. Command parameters:
-- `profileName` - App Center app name for migration to an Updraft
+- `profileName`
+    - App Center app name for migration to an Updraft
+    - **IMPORTANT** - app name, not app display name - you can find app name by using previous two commands for listing apps
 - `owner` - App Center application owner name
 - `updraftAppKey` - Your Updraft app key/token. You find it in 'Edit App'.
 - `updraftApiKey` - Your Updraft api key/token. You find it in 'Profile > Tokens'.
