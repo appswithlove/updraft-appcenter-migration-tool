@@ -113,6 +113,8 @@ export const migrateAllAppReleasesToUpdraft = async (owner: string, appName: str
     const response = await appcenterApi(`/apps/${owner}/${appName}/releases`);
     const appReleases: AppRelease[] = response.data;
 
+    sortAppReleasesBasedOnVersion(appReleases, 'asc');
+
     for (const release of appReleases) {
 
         if (ignoreDisabledReleases && !release.enabled) {
@@ -139,6 +141,18 @@ export const migrateAllAppReleasesToUpdraft = async (owner: string, appName: str
         unlinkSync(filePath);
     }
 }
+
+const sortAppReleasesBasedOnVersion = (
+    appReleases: AppRelease[],
+    order: 'asc' | 'desc'
+): void => {
+    appReleases.sort((a, b) => {
+        const versionA = parseFloat(a.version);
+        const versionB = parseFloat(b.version);
+
+        return order === 'asc' ? versionA - versionB : versionB - versionA;
+    });
+};
 
 const cleanTmpFolder = () => {
     const path = resolve(join(__dirname, '..', '..', 'tmp'));
