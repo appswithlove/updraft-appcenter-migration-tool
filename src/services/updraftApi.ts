@@ -34,7 +34,7 @@ export const getAllUpdraftApps = async (): Promise<UpdraftAppDetails[]> => {
     return response.data;
 };
 
-export const uploadAppReleaseToUpdraft = async (appKey: string, apiKey: string, filePath: string, fileExtension: string) => {
+export const uploadAppReleaseToUpdraft = async (appKey: string, apiKey: string, filePath: string, fileExtension: string, appCenterApp: AppCenterApp) => {
     const api = axios.create({
         baseURL: UPDRAFT_API_HOSTNAME,
         maxBodyLength: Infinity,
@@ -45,7 +45,7 @@ export const uploadAppReleaseToUpdraft = async (appKey: string, apiKey: string, 
 
     const formData = new FormData();
     formData.append('app', createReadStream(filePath), `file.${fileExtension}`);
-
+    formData.append('whats_new', appCenterApp.release_notes);
     const response = await api.put(
         `/api/app_upload/${appKey}/${apiKey}/`,
         formData,
@@ -113,6 +113,8 @@ export const migrateAllAppReleasesToUpdraft = async (owner: string, appName: str
     const response = await appcenterApi(`/apps/${owner}/${appName}/releases`);
     const appReleases: AppRelease[] = response.data;
 
+    sortAppReleasesBasedOnVersion(appReleases, 'asc');
+
     for (const release of appReleases) {
 
         if (ignoreDisabledReleases && !release.enabled) {
@@ -134,11 +136,23 @@ export const migrateAllAppReleasesToUpdraft = async (owner: string, appName: str
         const filePath = resolve(join(__dirname, '..', '..', 'tmp', 'binary.' + release.file_extension));
         writeFileSync(filePath, binaryFile);
 
-        await uploadAppReleaseToUpdraft(updraftAppKey, updraftApiKey, filePath, release.file_extension);
+        await uploadAppReleaseToUpdraft(updraftAppKey, updraftApiKey, filePath, release.file_extension, appCenterApp);
 
         unlinkSync(filePath);
     }
 }
+
+const sortAppReleasesBasedOnVersion = (
+    appReleases: AppRelease[],
+    order: 'asc' | 'desc'
+): void => {
+    appReleases.sort((a, b) => {
+        const versionA = parseFloat(a.version);
+        const versionB = parseFloat(b.version);
+
+        return order === 'asc' ? versionA - versionB : versionB - versionA;
+    });
+};
 
 const cleanTmpFolder = () => {
     const path = resolve(join(__dirname, '..', '..', 'tmp'));
