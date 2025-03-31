@@ -113,9 +113,9 @@ export const migrateAllAppReleasesToUpdraft = async (owner: string, appName: str
     const response = await appcenterApi(`/apps/${owner}/${appName}/releases`);
     const appReleases: AppRelease[] = response.data;
 
-    sortAppReleasesBasedOnVersion(appReleases, 'asc');
+    const sortedAppReleases = sortAppReleasesBasedOnUploadDate(appReleases, 'asc');
 
-    for (const release of appReleases) {
+    for (const release of sortedAppReleases) {
 
         if (ignoreDisabledReleases && !release.enabled) {
             console.log(`\n Release ${release.id} is disabled. Skipping...`);
@@ -142,17 +142,18 @@ export const migrateAllAppReleasesToUpdraft = async (owner: string, appName: str
     }
 }
 
-const sortAppReleasesBasedOnVersion = (
+const sortAppReleasesBasedOnUploadDate = (
     appReleases: AppRelease[],
     order: 'asc' | 'desc'
-): void => {
-    appReleases.sort((a, b) => {
-        const versionA = parseFloat(a.version);
-        const versionB = parseFloat(b.version);
+): AppRelease[] => {
+    return appReleases.sort((a, b) => {
+        const dateA = new Date(a.uploaded_at).getTime();
+        const dateB = new Date(b.uploaded_at).getTime();
 
-        return order === 'asc' ? versionA - versionB : versionB - versionA;
+        return order === 'asc' ? dateA - dateB : dateB - dateA;
     });
 };
+
 
 const cleanTmpFolder = () => {
     const path = resolve(join(__dirname, '..', '..', 'tmp'));
