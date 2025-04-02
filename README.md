@@ -1,14 +1,54 @@
 # updraft-appcenter-migration-tool
-The App Center Migration Tool is a CLI designed to help App Center Organizations seamlessly transfer their apps and app releases to Updraft (getupdraft.com). This tool will help to streamlin the app center migration process, ensuring a smooth transition between App Center and Updraft App Distribution platform.
+The App Center Migration Tool is a command-line interface (CLI) designed to help App Center organizations seamlessly migrate their apps and releases to [Updraft](https://getupdraft.com)  . This tool streamlines the migration process, ensuring a smooth and efficient transition from Microsoft App Center to the Updraft app distribution platform.
 
 ## Precondition
-- For a smooth transfer, it is important that you have already registered with Updraft.
-- You have also already created your projects and apps. Since Updraft has a project hierarchy and several apps for iOS, Android and Windows come together in one project, this step is required.
-- You need your API key from Microsoft App Center
-- You need your API key from Updraft
-- You need your APP keys from Updraft
+Before using the migration tool, please ensure the following:
 
-## Installation
+✅ You are registered with Updraft
+
+✅ You’ve created your projects and apps in Updraft
+
+🔹 Updraft Project Hierarchy:
+Updraft organizes apps using a **project-based hierarchy**:
+
+- Each **project** can include multiple **apps**
+- Apps can belong to **different operating systems** (iOS, Android, Windows)
+- Apps can be grouped by **deployment environments** (e.g., staging, QA, production)
+
+This structure helps you manage complex delivery pipelines and keep platform- and environment-specific builds cleanly organized within a single project.
+
+✅ You have your Microsoft App Center API key
+
+✅ You have your Updraft API key
+
+✅ You have your App Keys from Updraft
+
+## 🚀 Releases: From App Center to Updraft
+
+In **Microsoft App Center**, a *release* refers to a distributed app version.
+
+In **Updraft**, this is called a **build**, and distribution is handled through creating a **release**. So builds can be uploaded first, but there is no need to distribute it already at the same time.
+
+### Here's how it works in Updraft:
+
+1. A **build version** is uploaded or migrated to your app in Updraft.
+2. You create a **release** by selecting:
+   - The **app**
+   - The **deployment environment**
+   - The **build version**
+   - Target **distribution groups** or specific **tester email addresses**
+3. After configuration, you **send** the release.
+4. Testers receive an **email notification** with an **installation link** to access the release.
+
+### 📦 Distribution Options:
+
+- **Public link**: anyone with the link can install
+- **Managed release**: only specified testers or groups receive the release
+- **Managed permission groups**: you can create permission groups, assign permission groups to projects and set the user-role each group
+
+This allows for structured, controlled, and trackable app distribution—perfect for beta testing, QA, or internal deployments.
+
+# Installation
 
 Node version v23.0.0 or higher is required.
 
